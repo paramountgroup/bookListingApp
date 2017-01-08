@@ -167,36 +167,51 @@ public final class QueryUtils {
             // Create a JSONObject from the JSON response string
             JSONObject baseJsonResponse = new JSONObject(earthquakeJSON);
 
-            // Extract the JSONArray associated with the key called "features",
+            // Extract the JSONArray associated with the key called "kind",
             // which represents a list of features (or earthquakes).
-            JSONArray earthquakeArray = baseJsonResponse.getJSONArray("features");
+          //  JSONArray earthquakeArray = baseJsonResponse.getJSONArray("features");
+            JSONArray bookArray = baseJsonResponse.getJSONArray("items");
 
             // For each earthquake in the earthquakeArray, create an {@link Earthquake} object
-            for (int i = 0; i < earthquakeArray.length(); i++) {
+            for (int i = 0; i < bookArray.length(); i++) {
 
                 // Get a single earthquake at position i within the list of earthquakes
-                JSONObject currentEarthquake = earthquakeArray.getJSONObject(i);
+                JSONObject currentBook = bookArray.getJSONObject(i);
 
                 // For a given earthquake, extract the JSONObject associated with the
                 // key called "properties", which represents a list of all properties
                 // for that earthquake.
-                JSONObject properties = currentEarthquake.getJSONObject("properties");
+                //JSONObject properties = currentEarthquake.getJSONObject("properties");
+                JSONObject volumeInfoObject = currentBook.getJSONObject("volumeInfo");
+
 
                 // Extract the value for the key called "mag"
-                double magnitude = properties.getDouble("mag");
+         //       double magnitude = properties.getDouble("mag");
 
                 // Extract the value for the key called "place"
-                String location = properties.getString("place");
+                // Extract the value for the key called "authors"
+               //String location = properties.getString("place");
+                JSONArray authorsArray = volumeInfoObject.getJSONArray("authors");
+                String firstAuthor = authorsArray.getString(0);
+                String title = volumeInfoObject.getString("title");
 
                 // Extract the value for the key called "time"
-                long time = properties.getLong("time");
+         //       long time = properties.getLong("time");
+
 
                 // Extract the value for the key called "url"
-                String url = properties.getString("url");
+         //       String url = properties.getString("url");
+                String url = volumeInfoObject.getString("previewLink");
+
+                // just test variables to get it running
+                //String url = "";
+                long time = 0;
+                double magnitude = 0;
 
                 // Create a new {@link Earthquake} object with the magnitude, location, time,
                 // and url from the JSON response.
-                Earthquake earthquake = new Earthquake(magnitude, location, time, url);
+                Earthquake earthquake = new Earthquake(magnitude, title, time, url);
+
 
                 // Add the new {@link Earthquake} to the list of earthquakes.
                 earthquakes.add(earthquake);
