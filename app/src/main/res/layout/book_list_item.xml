@@ -55,7 +55,7 @@
             android:textAllCaps="true"
             android:textColor="@color/textColorEarthquakeDetails"
             android:textSize="12sp"
-            tools:text="30km S of" />
+            tools:text="TITLE" />
 
         <TextView
             android:id="@+id/primary_location"
@@ -65,7 +65,7 @@
             android:maxLines="2"
             android:textColor="@color/textColorEarthquakeLocation"
             android:textSize="16sp"
-            tools:text="Long placeholder location that should wrap to more than 2 lines of text" />
+            tools:text="Long placeholder title that should wrap to more than 2 lines of text" />
 
     </LinearLayout>
 
@@ -78,22 +78,23 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/date"
+            android:id="@+id/author_heading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textAllCaps="true"
             android:layout_gravity="end"
             android:textColor="@color/textColorEarthquakeDetails"
             android:textSize="12sp"
-            tools:text="Mar 6, 2010" />
+            tools:text="AUTHOR" />
 
         <TextView
-            android:id="@+id/time"
+            android:id="@+id/author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:textColor="@color/textColorEarthquakeDetails"
+            android:textColor="@color/textColorEarthquakeLocation"
             android:textSize="12sp"
-            tools:text="3:00 PM" />
+            tools:text="book author" />
 
     </LinearLayout>
 </LinearLayout>

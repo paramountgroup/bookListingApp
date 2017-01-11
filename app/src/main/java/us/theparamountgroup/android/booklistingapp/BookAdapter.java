@@ -18,6 +18,7 @@ package us.theparamountgroup.android.booklistingapp;
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,13 +31,13 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * An {@link EarthquakeAdapter} knows how to create a list item layout for each earthquake
- * in the data source (a list of {@link Earthquake} objects).
+ * An {@link BookAdapter} knows how to create a list item layout for each earthquake
+ * in the data source (a list of {@link Book} objects).
  *
  * These list item layouts will be provided to an adapter view like ListView
  * to be displayed to the user.
  */
-public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
+public class BookAdapter extends ArrayAdapter<Book> {
 
     /**
      * The part of the location string from the USGS service that we use to determine
@@ -45,15 +46,17 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
     private static final String LOCATION_SEPARATOR = " of ";
 
     /**
-     * Constructs a new {@link EarthquakeAdapter}.
+     * Constructs a new {@link BookAdapter}.
      *
      * @param context of the app
      * @param earthquakes is the list of earthquakes, which is the data source of the adapter
      */
-    public EarthquakeAdapter(Context context, List<Earthquake> earthquakes) {
+    public BookAdapter(Context context, List<Book> earthquakes) {
         super(context, 0, earthquakes);
+
     }
 
+    private static final String LOG_TAG = BookAdapter.class.getSimpleName();
     /**
      * Returns a list item view that displays information about the earthquake at the given position
      * in the list of earthquakes.
@@ -65,11 +68,14 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
         View listItemView = convertView;
         if (listItemView == null) {
             listItemView = LayoutInflater.from(getContext()).inflate(
-                    R.layout.earthquake_list_item, parent, false);
+                    R.layout.book_list_item, parent, false);
         }
 
+
+        Log.i(LOG_TAG, "integer position passed: " + position);
+
         // Find the earthquake at the given position in the list of earthquakes
-        Earthquake currentEarthquake = getItem(position);
+        Book currentEarthquake = getItem(position);
 
         // Find the TextView with view ID magnitude
         TextView magnitudeView = (TextView) listItemView.findViewById(R.id.magnitude);
@@ -86,9 +92,10 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
         // Set the color on the magnitude circle
         magnitudeCircle.setColor(magnitudeColor);
 
-        // Get the original location string from the Earthquake object,
+        // Get the original location string from the Book object,
         // which can be in the format of "5km N of Cairo, Egypt" or "Pacific-Antarctic Ridge".
         String originalLocation = currentEarthquake.getLocation();
+        Log.i(LOG_TAG, "originalLocation: " + originalLocation);
 
         // If the original location string (i.e. "5km N of Cairo, Egypt") contains
         // a primary location (Cairo, Egypt) and a location offset (5km N of that city)
@@ -126,21 +133,21 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
         locationOffsetView.setText(locationOffset);
 
         // Create a new Date object from the time in milliseconds of the earthquake
-        Date dateObject = new Date(currentEarthquake.getTimeInMilliseconds());
+        //Date dateObject = new Date(currentEarthquake.getAuthor());
 
-        // Find the TextView with view ID date
-        TextView dateView = (TextView) listItemView.findViewById(R.id.date);
-        // Format the date string (i.e. "Mar 3, 1984")
-        String formattedDate = formatDate(dateObject);
-        // Display the date of the current earthquake in that TextView
-        dateView.setText(formattedDate);
+        // Find the TextView with view ID author
+        TextView dateView = (TextView) listItemView.findViewById(R.id.author);
+        // Format the author string (i.e. "Mar 3, 1984")
+        //String formattedAuthor = formatDate(dateObject);
+        // Display the author of the current earthquake in that TextView
+        dateView.setText(currentEarthquake.getAuthor());
 
         // Find the TextView with view ID time
-        TextView timeView = (TextView) listItemView.findViewById(R.id.time);
+        TextView timeView = (TextView) listItemView.findViewById(R.id.author_heading);
         // Format the time string (i.e. "4:30PM")
-        String formattedTime = formatTime(dateObject);
+        //String formattedTime = formatTime(dateObject);
         // Display the time of the current earthquake in that TextView
-        timeView.setText(formattedTime);
+        timeView.setText("AUTHOR");
 
         // Return the list item view that is now showing the appropriate data
         return listItemView;
@@ -201,7 +208,7 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
     }
 
     /**
-     * Return the formatted date string (i.e. "Mar 3, 1984") from a Date object.
+     * Return the formatted author string (i.e. "Mar 3, 1984") from a Date object.
      */
     private String formatDate(Date dateObject) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("LLL dd, yyyy");
@@ -209,7 +216,7 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
     }
 
     /**
-     * Return the formatted date string (i.e. "4:30 PM") from a Date object.
+     * Return the formatted author string (i.e. "4:30 PM") from a Date object.
      */
     private String formatTime(Date dateObject) {
         SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");

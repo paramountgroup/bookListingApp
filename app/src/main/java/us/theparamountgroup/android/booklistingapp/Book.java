@@ -16,35 +16,35 @@
 package us.theparamountgroup.android.booklistingapp;
 
 /**
- * An {@link Earthquake} object contains information related to a single earthquake.
+ * An {@link Book} object contains information related to a single earthquake.
  */
-public class Earthquake {
+public class Book {
 
     /** Magnitude of the earthquake */
     private double mMagnitude;
 
     /** Location of the earthquake */
-    private String mLocation;
+    private String mTitle;
 
     /** Time of the earthquake */
-    private long mTimeInMilliseconds;
+    private String mAuthor;
 
     /** Website URL of the earthquake */
     private String mUrl;
 
     /**
-     * Constructs a new {@link Earthquake} object.
+     * Constructs a new {@link Book} object.
      *
      * @param magnitude is the magnitude (size) of the earthquake
-     * @param location is the location where the earthquake happened
-     * @param timeInMilliseconds is the time in milliseconds (from the Epoch) when the
+     * @param title is the location where the earthquake happened
+     * @param author is the time in milliseconds (from the Epoch) when the
      *                           earthquake happened
-     * @param url is the website URL to find more details about the earthquake
+     * @param url is the website URL to find more details about the book
      */
-    public Earthquake(double magnitude, String location, long timeInMilliseconds, String url) {
+    public Book(double magnitude, String title, String author, String url) {
         mMagnitude = magnitude;
-        mLocation = location;
-        mTimeInMilliseconds = timeInMilliseconds;
+        mTitle = title;
+        mAuthor = author;
         mUrl = url;
     }
 
@@ -55,18 +55,18 @@ public class Earthquake {
         return mMagnitude;
     }
 
-    /**
+    /** 
      * Returns the location of the earthquake.
      */
     public String getLocation() {
-        return mLocation;
+        return mTitle;
     }
 
     /**
      * Returns the time of the earthquake.
      */
-    public long getTimeInMilliseconds() {
-        return mTimeInMilliseconds;
+    public String getAuthor() {
+        return mAuthor;
     }
 
     /**
