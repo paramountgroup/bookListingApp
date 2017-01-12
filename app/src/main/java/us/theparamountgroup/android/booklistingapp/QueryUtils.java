@@ -15,6 +15,8 @@
  */
 package us.theparamountgroup.android.booklistingapp;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -183,6 +185,23 @@ public final class QueryUtils {
                 // for that book.
                 //JSONObject properties = currentEarthquake.getJSONObject("properties");
                 JSONObject volumeInfoObject = currentBook.getJSONObject("volumeInfo");
+                JSONObject currentThumbnailLinks = volumeInfoObject.getJSONObject("imageLinks");
+                //JSONObject smallThumbnailObject = currentThumbnailLinks.getJSONObject("smallThumbnail");
+                String smallThumbnailWebsite = currentThumbnailLinks.getString("smallThumbnail");
+                URL smallThumbnailUrl = null;
+                Bitmap bMapThumbnail = null;
+                try {
+                    smallThumbnailUrl = new URL(smallThumbnailWebsite);
+                    Log.i(LOG_TAG, "lets check the thumbnail url: " + smallThumbnailWebsite);
+                    InputStream thumbnailInputStream = smallThumbnailUrl.openStream();
+                    bMapThumbnail = BitmapFactory.decodeStream(thumbnailInputStream);
+                   // thumbnail.setImageBitmap(bMapThumbnail);
+                    thumbnailInputStream.close();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
 
                 // Extract the value for the key called "mag"
@@ -218,7 +237,7 @@ public final class QueryUtils {
 
                 // Create a new {@link Book} object with the magnitude, location, time,
                 // and url from the JSON response.
-                Book book = new Book(magnitude, title, firstAuthor, url);
+                Book book = new Book(bMapThumbnail, title, firstAuthor, url);
 
 
                 // Add the new {@link Book} to the list of books.

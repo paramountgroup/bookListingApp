@@ -16,13 +16,13 @@
 package us.theparamountgroup.android.booklistingapp;
 
 import android.content.Context;
-import android.graphics.drawable.GradientDrawable;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
@@ -78,19 +78,21 @@ public class BookAdapter extends ArrayAdapter<Book> {
         Book currentEarthquake = getItem(position);
 
         // Find the TextView with view ID magnitude
-        TextView magnitudeView = (TextView) listItemView.findViewById(R.id.magnitude);
+       // TextView magnitudeView = (TextView) listItemView.findViewById(R.id.magnitude);
+         ImageView thumbnailView = (ImageView) listItemView.findViewById(R.id.magnitude);
+        thumbnailView.setImageBitmap(currentEarthquake.getThumbnail());
         // Format the magnitude to show 1 decimal place
-        String formattedMagnitude = formatMagnitude(currentEarthquake.getMagnitude());
+       // String formattedMagnitude = formatMagnitude(currentEarthquake.getThumbnail());
         // Display the magnitude of the current earthquake in that TextView
-        magnitudeView.setText(formattedMagnitude);
+       // magnitudeView.setText(formattedMagnitude);
 
         // Set the proper background color on the magnitude circle.
         // Fetch the background from the TextView, which is a GradientDrawable.
-        GradientDrawable magnitudeCircle = (GradientDrawable) magnitudeView.getBackground();
+       // GradientDrawable magnitudeCircle = (GradientDrawable) magnitudeView.getBackground();
         // Get the appropriate background color based on the current earthquake magnitude
-        int magnitudeColor = getMagnitudeColor(currentEarthquake.getMagnitude());
+       // int magnitudeColor = getMagnitudeColor(currentEarthquake.getThumbnail());
         // Set the color on the magnitude circle
-        magnitudeCircle.setColor(magnitudeColor);
+       // magnitudeCircle.setColor(magnitudeColor);
 
         // Get the original location string from the Book object,
         // which can be in the format of "5km N of Cairo, Egypt" or "Pacific-Antarctic Ridge".

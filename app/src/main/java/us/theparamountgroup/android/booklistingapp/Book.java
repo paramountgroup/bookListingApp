@@ -15,13 +15,15 @@
  */
 package us.theparamountgroup.android.booklistingapp;
 
+import android.graphics.Bitmap;
+
 /**
  * An {@link Book} object contains information related to a single earthquake.
  */
 public class Book {
 
     /** Magnitude of the earthquake */
-    private double mMagnitude;
+    private Bitmap mThumbnail;
 
     /** Location of the earthquake */
     private String mTitle;
@@ -35,14 +37,14 @@ public class Book {
     /**
      * Constructs a new {@link Book} object.
      *
-     * @param magnitude is the magnitude (size) of the earthquake
+     * @param thumbnail is the thumbnail (size) of the earthquake
      * @param title is the location where the earthquake happened
      * @param author is the time in milliseconds (from the Epoch) when the
      *                           earthquake happened
      * @param url is the website URL to find more details about the book
      */
-    public Book(double magnitude, String title, String author, String url) {
-        mMagnitude = magnitude;
+    public Book( Bitmap thumbnail, String title, String author, String url) {
+        mThumbnail = thumbnail;
         mTitle = title;
         mAuthor = author;
         mUrl = url;
@@ -51,8 +53,8 @@ public class Book {
     /**
      * Returns the magnitude of the earthquake.
      */
-    public double getMagnitude() {
-        return mMagnitude;
+    public Bitmap getThumbnail() {
+        return mThumbnail;
     }
 
     /** 
