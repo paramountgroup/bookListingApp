@@ -35,7 +35,7 @@
         android:layout_centerInParent="true"
         android:textAppearance="?android:textAppearanceMedium"/>
 
-    <!-- Loading indicator for user feedback between queries to USGS -->
+    <!-- Loading indicator for user feedback between queries to Google Books API -->
     <ProgressBar
         android:id="@+id/loading_indicator"
         style="@style/Widget.AppCompat.ProgressBar"

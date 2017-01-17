@@ -27,6 +27,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,8 +46,10 @@ public class BookActivity extends AppCompatActivity
 
     /** URL for earthquake data from the USGS dataset */
     private static final String USGS_REQUEST_URL =
-            "https://www.googleapis.com/books/v1/volumes?q=android&maxResults=1";
+       //     "https://www.googleapis.com/books/v1/volumes?q=android&maxResults=1";
        //     "http://earthquake.usgs.gov/fdsnws/event/1/query";
+    //"https://www.googleapis.com/books/v1/volumes?q=+subject:java&startIndex=0&maxResults=10";
+    "https://www.googleapis.com/books/v1/volumes?q=";
 
     /**
      * Constant value for the earthquake loader ID. We can choose any integer.
@@ -152,6 +155,13 @@ public class BookActivity extends AppCompatActivity
     @Override
     public Loader<List<Book>> onCreateLoader(int i, Bundle bundle) {
 
+        String gbRequestURL = "";
+        String searchTitleText;
+        String searchAuthorText;
+        String searchSubjectText;
+        String authorText;
+        String subjectText;
+
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         String minMagnitude = sharedPrefs.getString(
                 getString(R.string.settings_min_magnitude_key),
@@ -161,16 +171,47 @@ public class BookActivity extends AppCompatActivity
                 getString(R.string.settings_order_by_key),
                 getString(R.string.settings_order_by_default)
         );
+/*
+When creating a query, list search terms separated by a '+', in the form q=term1+term2_term3.
+(Alternatively, you can separate them with a space, but as with all of the query parameter values,
+the spaces must then be URL encoded.) The API returns all entries that match all of the search terms
+(like using AND between terms). Like Google's web search, the API searches on complete words
+(and related words with the same stem), not substrings.
+*/
+        Intent intent = getIntent();
+        String title = intent.getStringExtra(MainActivity.EXTRA_TITLE);
+        String author = intent.getStringExtra(MainActivity.EXTRA_AUTHOR);
+        String subject = intent.getStringExtra(MainActivity.EXTRA_SUBJECT);
+        Log.i(LOG_TAG, "title: " + title + "   author: " + author + "   subject: " + subject);
 
-        Uri baseUri = Uri.parse(USGS_REQUEST_URL);
-        Uri.Builder uriBuilder = baseUri.buildUpon();
+        if (!title.equals("")) {
+            searchTitleText =  "+intitle:" + title;
+        } else {
+            searchTitleText = "";
+        }
 
-        uriBuilder.appendQueryParameter("format", "geojson");
-        uriBuilder.appendQueryParameter("limit", "10");
-        uriBuilder.appendQueryParameter("minmag", minMagnitude);
-        uriBuilder.appendQueryParameter("orderby", orderBy);
+        if (!author.equals("")) {
+            searchAuthorText =  "+inauthor:" + author;
+        } else {
+            searchAuthorText = "";
+        }
 
-        return new BookLoader(this, uriBuilder.toString());
+        if (!subject.equals("")) {
+            searchSubjectText = "+subject:" + subject;
+        } else {
+            searchSubjectText = "";
+        }       // Uri baseUri = Uri.parse(USGS_REQUEST_URL);
+        //Uri.Builder uriBuilder = baseUri.buildUpon();
+/*
+        uriBuilder.appendQueryParameter("intitle", title);
+        uriBuilder.appendQueryParameter("inauthor", author);
+        uriBuilder.appendQueryParameter("subject", subject);
+        uriBuilder.build(); */
+        String urlRequest = USGS_REQUEST_URL + searchTitleText + searchAuthorText + searchSubjectText +"&startIndex=0&maxResults=20";
+
+        Log.i(LOG_TAG, "url sent to book loader: " + urlRequest);
+       // return new BookLoader(this, uriBuilder.toString());
+        return new BookLoader(this, urlRequest);
     }
 
     @Override
@@ -180,7 +221,7 @@ public class BookActivity extends AppCompatActivity
         loadingIndicator.setVisibility(View.GONE);
 
         // Set empty state text to display "No earthquakes found."
-        mEmptyStateTextView.setText(R.string.no_earthquakes);
+        mEmptyStateTextView.setText(R.string.no_books);
 
         // Clear the adapter of previous earthquake data
         mAdapter.clear();
