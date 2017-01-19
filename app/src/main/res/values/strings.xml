@@ -63,4 +63,11 @@
         completions."
     </string>
     <string name="thumbnail_image_description">thumbnail image of books that is displayed</string>
+    <string name="google_logo_desc">Required attribution requirement for Google Books API</string>
+    <string name="search_books">Search Books</string>
+    <string name="enter_subject">Enter Subject</string>
+    <string name="subject">Subject:</string>
+    <string name="bob_s_books">BOB\'S BOOKS</string>
+    <string name="book_logo_desc">Books Books logo created using material design standards</string>
+    <string name="enter_title_hint">Enter Title</string>
 </resources>
