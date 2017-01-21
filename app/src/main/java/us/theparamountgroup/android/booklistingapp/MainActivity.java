@@ -14,13 +14,12 @@ import static us.theparamountgroup.android.booklistingapp.R.id;
 import static us.theparamountgroup.android.booklistingapp.R.layout;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String LOG_TAG = MainActivity.class.getName();
     public final static String EXTRA_TITLE = "us.theparamountgroup.android.booklistingapp.TITLE";
     public final static String EXTRA_AUTHOR = "us.theparamountgroup.android.booklistingapp.AUTHOR";
     public final static String EXTRA_SUBJECT = "us.theparamountgroup.android.booklistingapp.SUBJECT";
+    private static final String LOG_TAG = MainActivity.class.getName();
 
     //private Button getMyBooksBtn;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,15 +28,6 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(id.toolbar);
         setSupportActionBar(toolbar);
         startSearch();
-/*
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        }); */
     }
 
     /*
@@ -48,22 +38,20 @@ not substrings. To search for an exact phrase, enclose the phrase in quotation m
 
     private void startSearch() {
 
-        Log.i(LOG_TAG, "startSearch ");
-
         Button getMyBooksBtn = (Button) findViewById(id.search_btn);
 
         getMyBooksBtn.setOnClickListener(new View.OnClickListener() {
                                              @Override
                                              public void onClick(View v) {
                                                  EditText titleEditText = (EditText) findViewById(id.edit_title);
-                                                 final String titleString = titleEditText.getText().toString().trim();
+                                                 final String titleString = formatEditText(titleEditText.getText().toString().trim());
                                                  Log.i(LOG_TAG, "search query titleString: " + titleString);
                                                  titleEditText.setText("");
                                                  EditText authorEditText = (EditText) findViewById(id.edit_author);
-                                                 final String authorString = authorEditText.getText().toString().trim();
+                                                 final String authorString = formatEditText(authorEditText.getText().toString().trim());
                                                  authorEditText.setText("");
                                                  EditText subjectEditText = (EditText) findViewById(id.edit_subject);
-                                                 final String subjectString = subjectEditText.getText().toString().trim();
+                                                 final String subjectString = formatEditText(subjectEditText.getText().toString().trim());
                                                  subjectEditText.setText("");
                                                  Log.i(LOG_TAG, "subjectString on its way to intent: " + subjectString);
 
@@ -84,6 +72,23 @@ not substrings. To search for an exact phrase, enclose the phrase in quotation m
                                          }
 
         );
+    }
+
+    private String formatEditText(String string) {
+        String trimmedString;
+        boolean foundSpaceChar = string.contains(" ");
+        //Log.i(LOG_TAG, "foundSpaceChar boolean value: " + foundSpaceChar + "the string is: " + string);
+        // if string contains a space character replace with "+" and add quotes.
+        if (!foundSpaceChar) {
+            return string;
+        } else {
+            do {
+                trimmedString = string.replace(" ", "+");
+            } while (trimmedString.contains(" "));
+            trimmedString = '"' + trimmedString + '"';
+            //Log.i(LOG_TAG, "return trimmedString: " + trimmedString);
+            return trimmedString;
+        }
     }
 
 

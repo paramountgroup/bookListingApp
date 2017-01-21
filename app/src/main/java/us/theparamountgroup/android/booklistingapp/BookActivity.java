@@ -33,7 +33,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,20 +42,18 @@ public class BookActivity extends AppCompatActivity
 
     private static final String LOG_TAG = BookActivity.class.getName();
 
-    /** URL for earthquake data from the USGS dataset */
-    private static final String USGS_REQUEST_URL =
-       //     "https://www.googleapis.com/books/v1/volumes?q=android&maxResults=1";
-       //     "http://earthquake.usgs.gov/fdsnws/event/1/query";
-    //"https://www.googleapis.com/books/v1/volumes?q=+subject:java&startIndex=0&maxResults=10";
+    /** URL for Google Books data from the Google Books dataset */
+
+    private static final String BOOKS_REQUEST_URL =
     "https://www.googleapis.com/books/v1/volumes?q=";
 
     /**
      * Constant value for the earthquake loader ID. We can choose any integer.
-     * This really only comes into play if you're using multiple loaders.
+     * This really only comes    into play if you're using multiple loaders.
      */
     private static final int BOOK_LOADER_ID = 1;
 
-    /** Adapter for the list of earthquakes */
+    /** Adapter for the list of books */
     private BookAdapter mAdapter;
 
     /** TextView that is displayed when the list is empty */
@@ -68,17 +65,17 @@ public class BookActivity extends AppCompatActivity
         setContentView(R.layout.book_activity);
 
         // Find a reference to the {@link ListView} in the layout
-        ListView earthquakeListView = (ListView) findViewById(R.id.list);
+        ListView bookListView = (ListView) findViewById(R.id.list);
 
         mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
-        earthquakeListView.setEmptyView(mEmptyStateTextView);
+        bookListView.setEmptyView(mEmptyStateTextView);
 
-        // Create a new adapter that takes an empty list of earthquakes as input
+        // Create a new adapter that takes an empty list of books as input
         mAdapter = new BookAdapter(this, new ArrayList<Book>());
 
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface
-        earthquakeListView.setAdapter(mAdapter);
+        bookListView.setAdapter(mAdapter);
 
         // Obtain a reference to the SharedPreferences file for this app
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -88,17 +85,17 @@ public class BookActivity extends AppCompatActivity
 
         // Set an item click listener on the ListView, which sends an intent to a web browser
         // to open a website with more information about the selected earthquake.
-        earthquakeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        bookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 // Find the current earthquake that was clicked on
-                Book currentEarthquake = mAdapter.getItem(position);
+                Book currentBook = mAdapter.getItem(position);
 
                 // Convert the String URL into a URI object (to pass into the Intent constructor)
-                Uri earthquakeUri = Uri.parse(currentEarthquake.getUrl());
+                Uri bookUri = Uri.parse(currentBook.getUrl());
 
                 // Create a new intent to view the earthquake URI
-                Intent websiteIntent = new Intent(Intent.ACTION_VIEW, earthquakeUri);
+                Intent websiteIntent = new Intent(Intent.ACTION_VIEW, bookUri);
 
                 // Send the intent to launch a new activity
                 startActivity(websiteIntent);
@@ -154,30 +151,20 @@ public class BookActivity extends AppCompatActivity
     @Override
     public Loader<List<Book>> onCreateLoader(int i, Bundle bundle) {
 
-        String gbRequestURL = "";
         String searchTitleText;
         String searchAuthorText;
         String searchSubjectText;
-        String authorText;
-        String subjectText;
+        Intent intent = getIntent();
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String minMagnitude = sharedPrefs.getString(
-                getString(R.string.settings_min_magnitude_key),
-                getString(R.string.settings_min_magnitude_default));
-
-        String orderBy = sharedPrefs.getString(
-                getString(R.string.settings_order_by_key),
-                getString(R.string.settings_order_by_default)
-        );
 /*
+Google Books guidelines for creating api query:
 When creating a query, list search terms separated by a '+', in the form q=term1+term2_term3.
 (Alternatively, you can separate them with a space, but as with all of the query parameter values,
 the spaces must then be URL encoded.) The API returns all entries that match all of the search terms
 (like using AND between terms). Like Google's web search, the API searches on complete words
 (and related words with the same stem), not substrings.
 */
-        Intent intent = getIntent();
+
         String title = intent.getStringExtra(MainActivity.EXTRA_TITLE);
         String author = intent.getStringExtra(MainActivity.EXTRA_AUTHOR);
         String subject = intent.getStringExtra(MainActivity.EXTRA_SUBJECT);
@@ -202,24 +189,22 @@ the spaces must then be URL encoded.) The API returns all entries that match all
         }       // Uri baseUri = Uri.parse(USGS_REQUEST_URL);
         //Uri.Builder uriBuilder = baseUri.buildUpon();
 /*
-        uriBuilder.appendQueryParameter("intitle", title);
-        uriBuilder.appendQueryParameter("inauthor", author);
-        uriBuilder.appendQueryParameter("subject", subject);
-        uriBuilder.build(); */
-        String urlRequest = USGS_REQUEST_URL + searchTitleText + searchAuthorText + searchSubjectText +"&startIndex=0&maxResults=20";
-
-        Log.i(LOG_TAG, "url sent to book loader: " + urlRequest);
+       Create String url query request for Google Books api. In this case index starts at 0
+       and has a max return results of 20.
+        */
+        String urlRequest = BOOKS_REQUEST_URL + searchTitleText + searchAuthorText + searchSubjectText +"&startIndex=0&maxResults=20";
+        Log.i(LOG_TAG, "urlRequst string: " + urlRequest);
        // return new BookLoader(this, uriBuilder.toString());
         return new BookLoader(this, urlRequest);
     }
 
     @Override
-    public void onLoadFinished(Loader<List<Book>> loader, List<Book> earthquakes) {
+    public void onLoadFinished(Loader<List<Book>> loader, List<Book> books) {
         // Hide loading indicator because the data has been loaded
         View loadingIndicator = findViewById(R.id.loading_indicator);
         loadingIndicator.setVisibility(View.GONE);
 
-        // Set empty state text to display "No earthquakes found."
+        // Set empty state text to display "No Books found."
         mEmptyStateTextView.setText(R.string.no_books);
 
         // Clear the adapter of previous earthquake data
@@ -227,8 +212,8 @@ the spaces must then be URL encoded.) The API returns all entries that match all
 
         // If there is a valid list of {@link Book}s, then add them to the adapter's
         // data set. This will trigger the ListView to update.
-        if (earthquakes != null && !earthquakes.isEmpty()) {
-            mAdapter.addAll(earthquakes);
+        if (books != null && !books.isEmpty()) {
+            mAdapter.addAll(books);
         }
     }
 
@@ -237,21 +222,10 @@ the spaces must then be URL encoded.) The API returns all entries that match all
         // Loader reset, so we can clear out our existing data.
         mAdapter.clear();
     }
-/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-*/
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            Intent settingsIntent = new Intent(this, SettingsActivity.class);
-            startActivity(settingsIntent);
-            return true;
-        }
         return super.onOptionsItemSelected(item);
     }
 }

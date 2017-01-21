@@ -12,13 +12,9 @@
         android:id="@+id/content_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-
         android:focusable="true"
         android:focusableInTouchMode="true"
-
         android:gravity="center"
-
         android:orientation="vertical"
         android:padding="@dimen/activity_vertical_margin"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -87,13 +83,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/fill_blocks"
-                    android:textColorHint="#FFF"
-                    android:textColor="#FFF"
                     android:backgroundTint="@color/colorAccent"
                     android:hint="@string/enter_subject"
                     android:padding="5dp"
                     android:textAlignment="center"
-                    android:textAppearance="?android:textAppearanceMedium" />
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="#FFF"
+                    android:textColorHint="#FFF" />
 
             </LinearLayout>
 
@@ -101,15 +97,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-
                 android:paddingTop="20dp">
 
                 <TextView
                     android:id="@+id/author"
                     android:layout_width="100sp"
                     android:layout_height="wrap_content"
-
-                    android:text="Author:"
+                    android:text="@string/author"
                     android:textAllCaps="true"
                     android:textAppearance="?android:textAppearanceLarge" />
 
@@ -117,21 +111,21 @@
                     android:id="@+id/edit_author"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="#FFF"
-                    android:textColor="#FFF"
                     android:background="@drawable/fill_blocks"
                     android:backgroundTint="@color/colorAccent"
-                    android:hint="Enter Author"
+                    android:hint="@string/enter_author_hint"
                     android:padding="5dp"
                     android:textAlignment="center"
-                    android:textAppearance="?android:textAppearanceMedium" />
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="#FFF"
+                    android:textColorHint="#FFF" />
 
             </LinearLayout>
 
             <VideoView
+                android:id="@+id/videoView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/videoView" />
+                android:layout_height="wrap_content" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -144,8 +138,7 @@
                     android:id="@+id/title"
                     android:layout_width="100sp"
                     android:layout_height="wrap_content"
-
-                    android:text="Title:"
+                    android:text="@string/title"
                     android:textAllCaps="true"
                     android:textAppearance="?android:textAppearanceLarge" />
 
@@ -157,11 +150,11 @@
                     android:background="@drawable/fill_blocks"
                     android:backgroundTint="@color/colorAccent"
                     android:hint="@string/enter_title_hint"
-                    android:textColorHint="#FFF"
                     android:padding="5dp"
-                    android:textColor="#FFF"
                     android:textAlignment="center"
-                    android:textAppearance="?android:textAppearanceMedium" />
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="#FFF"
+                    android:textColorHint="#FFF" />
 
             </LinearLayout>
 
@@ -169,13 +162,16 @@
                 android:id="@+id/search_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
                 android:layout_marginBottom="5dp"
                 android:backgroundTint="#8CC63F"
                 android:paddingBottom="15dp"
                 android:text="@string/search_books"
                 android:textColor="#FFF"
                 android:textSize="28sp" />
+
             <ImageView
                 android:id="@+id/poweredByGoogle"
                 android:layout_width="wrap_content"
@@ -183,7 +179,7 @@
                 android:layout_gravity="center_horizontal"
                 android:contentDescription="@string/google_logo_desc"
                 android:gravity="center"
-                android:padding="5dp"
+
                 app:srcCompat="@drawable/powered_by_google_on_white" />
         </LinearLayout>
 

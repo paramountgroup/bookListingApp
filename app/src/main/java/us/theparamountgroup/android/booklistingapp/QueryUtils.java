@@ -56,6 +56,7 @@ public final class QueryUtils {
      */
     public static List<Book> fetchBookData(String requestUrl) {
         // Create URL object
+        Log.i(LOG_TAG, "string URL right before conversion to real url: " + requestUrl);
         URL url = createUrl(requestUrl);
 
         // Perform HTTP request to the URL and receive a JSON response back

@@ -21,7 +21,7 @@
     <string name="near_the">Title</string>
 
     <!-- Text to display in the list when there are no earthquakes [CHAR LIMIT=NONE] -->
-    <string name="no_books">No Books found.</string>
+    <string name="no_books">No Books Found.</string>
 
     <!-- Error message when there is no internet connectivity [CHAR LIMIT=NONE] -->
     <string name="no_internet_connection">No internet connection.</string>
@@ -70,4 +70,7 @@
     <string name="bob_s_books">BOB\'S BOOKS</string>
     <string name="book_logo_desc">Books Books logo created using material design standards</string>
     <string name="enter_title_hint">Enter Title</string>
+    <string name="title">Title:</string>
+    <string name="enter_author_hint">Enter Author</string>
+    <string name="author">Author:</string>
 </resources>

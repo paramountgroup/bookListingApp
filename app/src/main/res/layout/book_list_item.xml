@@ -27,14 +27,13 @@
     android:paddingStart="16dp">
 
     <ImageView
-        android:id="@+id/magnitude"
+        android:id="@+id/thumbnail"
         android:contentDescription="@string/thumbnail_image_description"
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:padding="10dp"
         android:layout_gravity="center_vertical"
-        android:gravity="center"
-         />
+        android:gravity="center" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -46,7 +45,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/location_offset"
+            android:id="@+id/title_heading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
@@ -55,17 +54,18 @@
             android:textAllCaps="true"
             android:textColor="@color/textColorHeadings"
             android:textSize="12sp"
-            tools:text="TITLE" />
+            android:text="TITLE"
+             />
 
         <TextView
             android:id="@+id/primary_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:maxLines="2"
+            android:maxLines="4"
             android:textColor="@color/textColorTitleAndAuthor"
             android:textSize="16sp"
-            tools:text="Long placeholder title that should wrap to more than 2 lines of text" />
+            tools:text="Long placeholder title that should wrap to more than 4 lines of text" />
 
     </LinearLayout>
 
@@ -85,7 +85,8 @@
             android:layout_gravity="end"
             android:textColor="@color/textColorHeadings"
             android:textSize="12sp"
-            tools:text="AUTHOR" />
+            android:text="AUTHOR"
+             />
 
         <TextView
             android:id="@+id/author"
