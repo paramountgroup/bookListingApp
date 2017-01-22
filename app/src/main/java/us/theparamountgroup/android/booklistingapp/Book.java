@@ -60,13 +60,19 @@ public class Book {
      * Returns the title of the book.
      */
     public String getTitle() {
-        return mTitle;
+
+        if (mAuthor.equals("")){
+            mAuthor = "(no title listed)";
+        }return mTitle;
     }
 
     /**
      * Returns the author of the book.
      */
     public String getAuthor() {
+        if (mAuthor.equals("")){
+            mAuthor = "(no author listed)";
+        }
         return mAuthor;
     }
 

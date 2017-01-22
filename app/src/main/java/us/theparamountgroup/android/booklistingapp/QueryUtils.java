@@ -19,11 +19,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,7 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Helper methods related to requesting and receiving earthquake data from USGS.
+ * Helper methods related to requesting and receiving book data from Google Books.
  */
 public final class QueryUtils {
 
@@ -185,34 +183,58 @@ public final class QueryUtils {
                 // for that book.
 
                 JSONObject volumeInfoObject = currentBook.getJSONObject("volumeInfo");
-                JSONObject currentThumbnailLinks = volumeInfoObject.getJSONObject("imageLinks");
-                String smallThumbnailWebsite = currentThumbnailLinks.getString("smallThumbnail");
-                URL smallThumbnailUrl = null;
+                JSONObject currentThumbnailLink = volumeInfoObject.getJSONObject("imageLinks");
+                String smallThumbnailWebsite = currentThumbnailLink.getString("smallThumbnail");
+                //URL smallThumbnailUrl = null;
                 Bitmap bMapThumbnail = null;
+                String firstAuthor = "";
+                String title = "";
+                String url = "";
+
                 try {
-                    smallThumbnailUrl = new URL(smallThumbnailWebsite);
+                    URL smallThumbnailUrl = new URL(smallThumbnailWebsite);
                     Log.i(LOG_TAG, "lets check the thumbnail url: " + smallThumbnailWebsite);
                     InputStream thumbnailInputStream = smallThumbnailUrl.openStream();
                     bMapThumbnail = BitmapFactory.decodeStream(thumbnailInputStream);
                     // thumbnail.setImageBitmap(bMapThumbnail);
                     thumbnailInputStream.close();
                 } catch (MalformedURLException e) {
+                    Log.e("QueryUtils", "Problem parsing the book JSON results for thumbnail url", e);
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-                // Extract the value for the key called "authors"
+                // Extract the value for the key called "authors". Use try and catch to catch
+                //an exception and continue to next book
+                try {
+                    JSONArray authorsArray = volumeInfoObject.getJSONArray("authors");
+                    firstAuthor = authorsArray.getString(0);
+                    Log.i(LOG_TAG, "The string found for firstAuthor: " + firstAuthor);
 
-                JSONArray authorsArray = volumeInfoObject.getJSONArray("authors");
-                String firstAuthor = authorsArray.getString(0);
-                Log.i(LOG_TAG, "The string found for firstAuthor: " + firstAuthor);
-                String title = volumeInfoObject.getString("title");
+                } catch (JSONException e) {
 
+                    Log.e("QueryUtils", "Problem parsing the book JSON results for author", e);
+                }
+
+                // Extract the value for the key called "title". Use try and catch to catch
+                //an exception and continue to next book
+                try {
+                    title = volumeInfoObject.getString("title");
+                    Log.i(LOG_TAG, "The string found for title: " + title);
+                } catch (JSONException e) {
+
+                    Log.e("QueryUtils", "Problem parsing the book JSON results for title", e);
+                }
                 // Extract the value for the key called "url"
                 //       String url = properties.getString("url");
-                String url = volumeInfoObject.getString("previewLink");
+                try {
+                    url = volumeInfoObject.getString("previewLink");
+                    Log.i(LOG_TAG, "The string found for book url: " + url);
+                } catch (JSONException e) {
 
+                    Log.e("QueryUtils", "Problem parsing the book JSON results for previewLink url", e);
+                }
 
                 // Create a new {@link Book} object with the bMapThumbnail, title, firstAuthor,
                 // and url from the JSON response.
@@ -225,9 +247,8 @@ public final class QueryUtils {
             // If an error is thrown when executing any of the above statements in the "try" block,
             // catch the exception here, so the app doesn't crash. Print a log message
             // with the message from the exception.
-            Log.e("QueryUtils", "Problem parsing the earthquake JSON results", e);
+            Log.e("QueryUtils", "Problem parsing the book JSON results", e);
         }
-
         // Return the list of books
         return books;
     }
