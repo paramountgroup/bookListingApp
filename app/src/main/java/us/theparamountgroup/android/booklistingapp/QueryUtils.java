@@ -19,9 +19,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -192,9 +194,9 @@ public final class QueryUtils {
                 String smallThumbnailWebsite = "";
 
                 JSONObject volumeInfoObject = currentBook.getJSONObject("volumeInfo");
-                try{
-                currentThumbnailLink = volumeInfoObject.getJSONObject("imageLinks");
-                smallThumbnailWebsite = currentThumbnailLink.getString("smallThumbnail");
+                try {
+                    currentThumbnailLink = volumeInfoObject.getJSONObject("imageLinks");
+                    smallThumbnailWebsite = currentThumbnailLink.getString("smallThumbnail");
                 } catch (JSONException e) {
 
                     Log.e("QueryUtils", "Problem parsing the book JSON results for author", e);
