@@ -20,43 +20,46 @@ import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class BookActivity extends AppCompatActivity
-        implements LoaderCallbacks<List<Book>>,
-        SharedPreferences.OnSharedPreferenceChangeListener {
+        implements LoaderCallbacks<List<Book>> {
 
     private static final String LOG_TAG = BookActivity.class.getName();
 
-    /** URL for Google Books data from the Google Books dataset */
+    /**
+     * URL for Google Books data from the Google Books dataset
+     */
 
     private static final String BOOKS_REQUEST_URL =
-    "https://www.googleapis.com/books/v1/volumes?q=";
+            "https://www.googleapis.com/books/v1/volumes?q=";
 
     /**
-     * Constant value for the earthquake loader ID. We can choose any integer.
-     * This really only comes    into play if you're using multiple loaders.
+     * Constant value for the book loader ID. We can choose any integer.
+     * This really only comes into play if you're using multiple loaders.
      */
     private static final int BOOK_LOADER_ID = 1;
 
-    /** Adapter for the list of books */
+    /**
+     * Adapter for the list of books
+     */
     private BookAdapter mAdapter;
 
-    /** TextView that is displayed when the list is empty */
+    /**
+     * TextView that is displayed when the list is empty
+     */
     private TextView mEmptyStateTextView;
 
     @Override
@@ -76,12 +79,6 @@ public class BookActivity extends AppCompatActivity
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface
         bookListView.setAdapter(mAdapter);
-
-        // Obtain a reference to the SharedPreferences file for this app
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        // And register to be notified of preference changes
-        // So we know when the user has adjusted the query settings
-        prefs.registerOnSharedPreferenceChangeListener(this);
 
         // Set an item click listener on the ListView, which sends an intent to a web browser
         // to open a website with more information about the selected earthquake.
@@ -129,24 +126,6 @@ public class BookActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-        if (key.equals(getString(R.string.settings_min_magnitude_key)) ||
-                key.equals(getString(R.string.settings_order_by_key))){
-            // Clear the ListView as a new query will be kicked off
-            mAdapter.clear();
-
-            // Hide the empty state text view as the loading indicator will be displayed
-            mEmptyStateTextView.setVisibility(View.GONE);
-
-            // Show the loading indicator while new data is being fetched
-            View loadingIndicator = findViewById(R.id.loading_indicator);
-            loadingIndicator.setVisibility(View.VISIBLE);
-
-            // Restart the loader to requery the USGS as the query settings have been updated
-            getLoaderManager().restartLoader(BOOK_LOADER_ID, null, this);
-        }
-    }
 
     @Override
     public Loader<List<Book>> onCreateLoader(int i, Bundle bundle) {
@@ -171,13 +150,13 @@ the spaces must then be URL encoded.) The API returns all entries that match all
         Log.i(LOG_TAG, "title: " + title + "   author: " + author + "   subject: " + subject);
 
         if (!title.equals("")) {
-            searchTitleText =  "+intitle:" + title;
+            searchTitleText = "+intitle:" + title;
         } else {
             searchTitleText = "";
         }
 
         if (!author.equals("")) {
-            searchAuthorText =  "+inauthor:" + author;
+            searchAuthorText = "+inauthor:" + author;
         } else {
             searchAuthorText = "";
         }
@@ -186,15 +165,14 @@ the spaces must then be URL encoded.) The API returns all entries that match all
             searchSubjectText = "+subject:" + subject;
         } else {
             searchSubjectText = "";
-        }       // Uri baseUri = Uri.parse(USGS_REQUEST_URL);
-        //Uri.Builder uriBuilder = baseUri.buildUpon();
+        }
 /*
        Create String url query request for Google Books api. In this case index starts at 0
        and has a max return results of 20.
         */
-        String urlRequest = BOOKS_REQUEST_URL + searchTitleText + searchAuthorText + searchSubjectText +"&startIndex=0&maxResults=20";
+        String urlRequest = BOOKS_REQUEST_URL + searchTitleText + searchAuthorText + searchSubjectText + "&startIndex=0&maxResults=20";
         Log.i(LOG_TAG, "urlRequst string: " + urlRequest);
-       // return new BookLoader(this, uriBuilder.toString());
+        // return new BookLoader(this, uriBuilder.toString());
         return new BookLoader(this, urlRequest);
     }
 
@@ -221,11 +199,5 @@ the spaces must then be URL encoded.) The API returns all entries that match all
     public void onLoaderReset(Loader<List<Book>> loader) {
         // Loader reset, so we can clear out our existing data.
         mAdapter.clear();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        return super.onOptionsItemSelected(item);
     }
 }

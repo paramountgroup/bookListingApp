@@ -16,7 +16,6 @@
 package us.theparamountgroup.android.booklistingapp;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,11 +34,6 @@ import java.util.List;
  */
 public class BookAdapter extends ArrayAdapter<Book> {
 
-    /**
-     * The part of the location string from the Google Books service that we use to determine
-     * whether or not there is a location offset present ("5km N of Cairo, Egypt").
-     */
-    private static final String LOCATION_SEPARATOR = " of ";
     private static final String LOG_TAG = BookAdapter.class.getSimpleName();
 
     /**
@@ -50,12 +44,10 @@ public class BookAdapter extends ArrayAdapter<Book> {
      */
     public BookAdapter(Context context, List<Book> books) {
         super(context, 0, books);
-
     }
 
     /**
-     * Returns a list item view that displays information about the earthquake at the given position
-     * in the list of earthquakes.
+     * Returns a list item view that displays information about the book thumbnail, title and author in the list of books.
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -66,7 +58,6 @@ public class BookAdapter extends ArrayAdapter<Book> {
             listItemView = LayoutInflater.from(getContext()).inflate(
                     R.layout.book_list_item, parent, false);
         }
-
 
         // Find the Book at the given position in the list of Books
         Book currentBook = getItem(position);
@@ -79,7 +70,6 @@ public class BookAdapter extends ArrayAdapter<Book> {
         // Get the title string from the Book object,
 
         String titleCurrentBook = currentBook.getTitle();
-        Log.i(LOG_TAG, "title of current book: " + titleCurrentBook);
 
         // Find the TextView with view ID location
         TextView primaryLocationView = (TextView) listItemView.findViewById(R.id.primary_location);
@@ -95,6 +85,4 @@ public class BookAdapter extends ArrayAdapter<Book> {
         // Return the list item view that is now showing the appropriate data
         return listItemView;
     }
-
-
 }

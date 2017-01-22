@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-
 import static us.theparamountgroup.android.booklistingapp.R.id;
 import static us.theparamountgroup.android.booklistingapp.R.layout;
 
@@ -74,11 +73,12 @@ not substrings. To search for an exact phrase, enclose the phrase in quotation m
 
         );
     }
+// format the input string change " " to "+" and add quotes if more than one word. This is
+//    required formating for Google books url request.
 
     private String formatEditText(String string) {
         String trimmedString;
         boolean foundSpaceChar = string.contains(" ");
-        //Log.i(LOG_TAG, "foundSpaceChar boolean value: " + foundSpaceChar + "the string is: " + string);
         // if string contains a space character replace with "+" and add quotes.
         if (!foundSpaceChar) {
             return string;
@@ -87,10 +87,7 @@ not substrings. To search for an exact phrase, enclose the phrase in quotation m
                 trimmedString = string.replace(" ", "+");
             } while (trimmedString.contains(" "));
             trimmedString = '"' + trimmedString + '"';
-            //Log.i(LOG_TAG, "return trimmedString: " + trimmedString);
             return trimmedString;
         }
     }
-
-
 }

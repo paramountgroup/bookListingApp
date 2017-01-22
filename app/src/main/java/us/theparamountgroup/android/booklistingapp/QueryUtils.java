@@ -40,7 +40,9 @@ import java.util.List;
  */
 public final class QueryUtils {
 
-    /** Tag for the log messages */
+    /**
+     * Tag for the log messages
+     */
     private static final String LOG_TAG = QueryUtils.class.getSimpleName();
 
     /**
@@ -56,7 +58,6 @@ public final class QueryUtils {
      */
     public static List<Book> fetchBookData(String requestUrl) {
         // Create URL object
-        Log.i(LOG_TAG, "string URL right before conversion to real url: " + requestUrl);
         URL url = createUrl(requestUrl);
 
         // Perform HTTP request to the URL and receive a JSON response back
@@ -170,24 +171,21 @@ public final class QueryUtils {
             // Create a JSONObject from the JSON response string
             JSONObject baseJsonResponse = new JSONObject(bookJSON);
 
-            // Extract the JSONArray associated with the key called "kind",
-            // which represents a list of features (or books).
-          //  JSONArray earthquakeArray = baseJsonResponse.getJSONArray("features");
+            // Extract the JSONArray associated with the key called "items",
             JSONArray bookArray = baseJsonResponse.getJSONArray("items");
 
-            // For each earthquake in the earthquakeArray, create an {@link Book} object
+            // For each book in the bookArray, create an {@link Book} object
             for (int i = 0; i < bookArray.length(); i++) {
 
                 // Get a single book at position i within the list of books
                 JSONObject currentBook = bookArray.getJSONObject(i);
 
                 // For a given book, extract the JSONObject associated with the
-                // key called "properties", which represents a list of all properties
+                // key called "volumeInfo", which represents a list of all properties
                 // for that book.
-                //JSONObject properties = currentEarthquake.getJSONObject("properties");
+
                 JSONObject volumeInfoObject = currentBook.getJSONObject("volumeInfo");
                 JSONObject currentThumbnailLinks = volumeInfoObject.getJSONObject("imageLinks");
-                //JSONObject smallThumbnailObject = currentThumbnailLinks.getJSONObject("smallThumbnail");
                 String smallThumbnailWebsite = currentThumbnailLinks.getString("smallThumbnail");
                 URL smallThumbnailUrl = null;
                 Bitmap bMapThumbnail = null;
@@ -196,7 +194,7 @@ public final class QueryUtils {
                     Log.i(LOG_TAG, "lets check the thumbnail url: " + smallThumbnailWebsite);
                     InputStream thumbnailInputStream = smallThumbnailUrl.openStream();
                     bMapThumbnail = BitmapFactory.decodeStream(thumbnailInputStream);
-                   // thumbnail.setImageBitmap(bMapThumbnail);
+                    // thumbnail.setImageBitmap(bMapThumbnail);
                     thumbnailInputStream.close();
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
@@ -204,47 +202,25 @@ public final class QueryUtils {
                     e.printStackTrace();
                 }
 
-
-                // Extract the value for the key called "mag"
-         //       double magnitude = properties.getDouble("mag");
-
-                // Extract the value for the key called "place"
                 // Extract the value for the key called "authors"
-               //String location = properties.getString("place");
+
                 JSONArray authorsArray = volumeInfoObject.getJSONArray("authors");
                 String firstAuthor = authorsArray.getString(0);
                 Log.i(LOG_TAG, "The string found for firstAuthor: " + firstAuthor);
                 String title = volumeInfoObject.getString("title");
 
-                // Extract the value for the key called "time"
-         //       long time = properties.getLong("time");
-/*
-                Image image = null;
-                try {
-                    URL url = new URL("http://www.yahoo.com/image_to_read.jpg");
-                    image = ImageIO.read(url);
-                } catch (IOException e) {
-                }
-
-*/
                 // Extract the value for the key called "url"
-         //       String url = properties.getString("url");
+                //       String url = properties.getString("url");
                 String url = volumeInfoObject.getString("previewLink");
 
-                // just test variables to get it running
-                //String url = "";
-            //    String firstAuthor = "";
-                double magnitude = 0;
 
-                // Create a new {@link Book} object with the magnitude, location, time,
+                // Create a new {@link Book} object with the bMapThumbnail, title, firstAuthor,
                 // and url from the JSON response.
                 Book book = new Book(bMapThumbnail, title, firstAuthor, url);
-
 
                 // Add the new {@link Book} to the list of books.
                 books.add(book);
             }
-
         } catch (JSONException e) {
             // If an error is thrown when executing any of the above statements in the "try" block,
             // catch the exception here, so the app doesn't crash. Print a log message
@@ -255,6 +231,4 @@ public final class QueryUtils {
         // Return the list of books
         return books;
     }
-
-
 }

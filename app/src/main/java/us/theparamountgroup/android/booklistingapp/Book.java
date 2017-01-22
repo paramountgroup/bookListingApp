@@ -18,7 +18,7 @@ package us.theparamountgroup.android.booklistingapp;
 import android.graphics.Bitmap;
 
 /**
- * An {@link Book} object contains information related to a single earthquake.
+ * An {@link Book} object contains information related to a single book.
  */
 public class Book {
 
