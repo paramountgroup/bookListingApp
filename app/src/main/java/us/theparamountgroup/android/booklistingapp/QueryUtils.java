@@ -182,14 +182,24 @@ public final class QueryUtils {
                 // key called "volumeInfo", which represents a list of all properties
                 // for that book.
 
-                JSONObject volumeInfoObject = currentBook.getJSONObject("volumeInfo");
-                JSONObject currentThumbnailLink = volumeInfoObject.getJSONObject("imageLinks");
-                String smallThumbnailWebsite = currentThumbnailLink.getString("smallThumbnail");
+
                 //URL smallThumbnailUrl = null;
                 Bitmap bMapThumbnail = null;
                 String firstAuthor = "";
                 String title = "";
                 String url = "";
+                JSONObject currentThumbnailLink = null;
+                String smallThumbnailWebsite = "";
+
+                JSONObject volumeInfoObject = currentBook.getJSONObject("volumeInfo");
+                try{
+                currentThumbnailLink = volumeInfoObject.getJSONObject("imageLinks");
+                smallThumbnailWebsite = currentThumbnailLink.getString("smallThumbnail");
+                } catch (JSONException e) {
+
+                    Log.e("QueryUtils", "Problem parsing the book JSON results for author", e);
+                }
+
 
                 try {
                     URL smallThumbnailUrl = new URL(smallThumbnailWebsite);
