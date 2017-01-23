@@ -37,4 +37,6 @@
     <string name="title">Title:</string>
     <string name="enter_author_hint">Enter Author</string>
     <string name="author">Author:</string>
+    <string name="title_heading">TITLE</string>
+    <string name="author_heading">AUTHOR</string>
 </resources>

@@ -19,12 +19,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
     android:orientation="horizontal"
-    android:paddingEnd="16dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingStart="16dp">
+    android:padding="16dp">
 
     <ImageView
         android:id="@+id/thumbnail"
@@ -54,8 +50,7 @@
             android:textAllCaps="true"
             android:textColor="@color/textColorHeadings"
             android:textSize="12sp"
-            android:text="TITLE"
-             />
+            android:text="@string/title_heading" />
 
         <TextView
             android:id="@+id/primary_location"
@@ -85,8 +80,7 @@
             android:layout_gravity="end"
             android:textColor="@color/textColorHeadings"
             android:textSize="12sp"
-            android:text="AUTHOR"
-             />
+            android:text="@string/author_heading" />
 
         <TextView
             android:id="@+id/author"

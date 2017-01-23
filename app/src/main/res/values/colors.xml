@@ -29,5 +29,7 @@
     <!-- Text color for the primary location of the earthquake in the list item -->
     <color name="textColorTitleAndAuthor">#2B3D4D</color>
 
+    <color name="logoGreenColor">#8CC63F</color>
+
 
 </resources>
