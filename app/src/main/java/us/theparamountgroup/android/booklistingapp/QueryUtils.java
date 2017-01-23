@@ -225,7 +225,7 @@ public final class QueryUtils {
                     Log.i(LOG_TAG, "The string found for firstAuthor: " + firstAuthor);
 
                 } catch (JSONException e) {
-
+                    firstAuthor = "(no author found)";
                     Log.e("QueryUtils", "Problem parsing the book JSON results for author", e);
                 }
 
@@ -235,7 +235,7 @@ public final class QueryUtils {
                     title = volumeInfoObject.getString("title");
                     Log.i(LOG_TAG, "The string found for title: " + title);
                 } catch (JSONException e) {
-
+                    title = "(no title found)";
                     Log.e("QueryUtils", "Problem parsing the book JSON results for title", e);
                 }
                 // Extract the value for the key called "url"

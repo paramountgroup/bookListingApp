@@ -91,11 +91,15 @@ public class BookActivity extends AppCompatActivity
                 // Convert the String URL into a URI object (to pass into the Intent constructor)
                 Uri bookUri = Uri.parse(currentBook.getUrl());
 
-                // Create a new intent to view the earthquake URI
+                // Create a new intent to view the Google book URI
                 Intent websiteIntent = new Intent(Intent.ACTION_VIEW, bookUri);
 
-                // Send the intent to launch a new activity
-                startActivity(websiteIntent);
+                if (websiteIntent.resolveActivity(getPackageManager()) != null) {
+                    // Send the intent to launch a new activity
+                    startActivity(websiteIntent);
+                }
+
+
             }
         });
 

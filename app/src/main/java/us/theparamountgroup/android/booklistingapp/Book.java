@@ -52,29 +52,17 @@ public class Book {
     /**
      * Returns the bitmap thumbnail image of the book.
      */
-    public Bitmap getThumbnail() {
-        return mThumbnail;
-    }
+    public Bitmap getThumbnail() {return mThumbnail;}
 
     /** 
      * Returns the title of the book.
      */
-    public String getTitle() {
-
-        if (mAuthor.equals("")){
-            mAuthor = "(no title listed)";
-        }return mTitle;
-    }
+    public String getTitle() {return mTitle;}
 
     /**
      * Returns the author of the book.
      */
-    public String getAuthor() {
-        if (mAuthor.equals("")){
-            mAuthor = "(no author listed)";
-        }
-        return mAuthor;
-    }
+    public String getAuthor() {return mAuthor;}
 
     /**
      * Returns the website URL to find more information about the book.
