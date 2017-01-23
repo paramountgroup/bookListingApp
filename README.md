@@ -1,20 +1,20 @@
-Quake Report App
+Book Listing App
 ===================================
 
-This app displays a list of recent earthquakes in the world
-from the U.S. Geological Survey (USGS) organization.
+This app displays a list of books using user input search query and 
+the Google Books API to generate a list of books.
 
-Used in a Udacity course in the Beginning Android Nanodegree.
+Project submission in the Udacity course Beginning Android Nanodegree. 
 
-More info on the USGS Earthquake API available at:
-http://earthquake.usgs.gov/fdsnws/event/1/
+More info on the Google Books API available at:
+https://developers.google.com/books/
 
 Pre-requisites
 --------------
 
 - Android SDK v23
 - Android Build Tools v23.0.2
-- Android Support Repository v23.3.0
+- Android Support Repository v23.4.0
 
 Getting Started
 ---------------
